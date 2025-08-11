@@ -59,7 +59,7 @@ p a {
     padding: 12px 20px;
     gap: 20px;
     background: var(--bg);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.3);
 }
 
 .nav-left {
@@ -95,23 +95,6 @@ p a {
 
 .nav-links a.active {
     color: var(--accent);font-weight:600
-}
-
-.home-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 42px; 
-    height: 42px;
-    background: transparent; 
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 10px; cursor:pointer;
-    color: var(--text);
-    font-size: 20px;
-}
-
-.home-btn:focus {
-    outline: 3px solid rgba(37,99,235,0.15)
 }
 
 @media (max-width:640px) {
