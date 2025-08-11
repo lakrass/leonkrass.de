@@ -39,7 +39,7 @@ p a {
     border-radius: 50%;
     text-decoration: none;
     text-align: center;
-    line-height: 67px;
+    line-height: 62.5px !important;
     font-size: 35px;
     color: black;
 }
