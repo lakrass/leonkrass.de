@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Impressum</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="text-page.css">
+</head>
+
+<body>
+    <header class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-left">
+            <nav class="nav-links" aria-label="Primary">
+                <a href="/">Home</a>
+                <a href="/lk-radio">LK Radio</a>
+                <a href="/live-sets">Live Sets</a>
+                <a href="/contact">Contact</a>
+            </nav>
+        </div>
+        <div class="nav-right">
+            <a href="https://leonkrass.de">
+                <img id="logo-header" src="LK Small.svg" alt="LK">
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Impressum</h1>
+
+        <h2>Angaben gemäß § 5 DDG</h2>
+        <p>
+            Leon Kraß<br />
+            c/o Postflex #10296<br />
+            Emsdettener Str. 10<br />
+            48268 Greven
+        </p>
+
+        <p>
+            Künstlername: Leon Krass
+        </p>
+
+        <p>
+            E-Mail: <a href="mailto:info@leonkrass.de">info@leonkrass.de</a><br />
+        </p>
+
+        <p>
+            Umsatzsteuer: <br />
+            Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.
+        </p>
+
+        <p>
+            Dieses Impressum gilt auch für meine Onlinepräsenzen auf folgenden Plattformen:
+            Instagram, Facebook, YouTube und Mixcloud.
+        </p>
+
+        <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+        <p>
+            Leon Kraß<br />
+            c/o Postflex #10296<br />
+            Emsdettener Str. 10<br />
+            48268 Greven
+        </p>
+
+    </main>
+
+    <div class="spacer"></div>
+
+    <footer>
+        <div class="footer-wrap">
+            <div class="foot">
+                <div>&copy; <span id="y"></span> Leon Krass</div>
+                <div>
+                    <a href="/impressum">Impressum</a> |
+                    <a href="/datenschutz">Datenschutz</a>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.getElementById("y").textContent = new Date().getFullYear();
+        </script>
+    </footer>
+</body>
+
+</html>
