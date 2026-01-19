@@ -3,12 +3,17 @@
     --text: #e6eef8;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
 body {
     margin: 0;
     font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     background: var(--bg);
     color: var(--text);
-    min-height: -webkit-fill-available; 
+    min-height: -webkit-fill-available;
 }
 
 main {
@@ -18,9 +23,10 @@ main {
     align-items: center;
     margin: 0;
     padding: 0;
+    padding-bottom: 100px;
 }
 
-p a {
+a {
     color: lightblue;
 }
 
@@ -52,12 +58,18 @@ p a {
     width: 2rem;
 }
 
+header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
 .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 12px 20px;
-    gap: 20px;
+    gap: 30px;
     background: var(--bg);
     border-bottom: 1px solid rgba(255,255,255,0.3);
 }
@@ -86,6 +98,8 @@ p a {
     padding: 8px 10px;
     border-radius: 8px;
     font-size: 15px;
+    text-align: center;
+    display: inline-block;
 }
 
 .nav-links a:hover {
@@ -101,4 +115,31 @@ p a {
     .nav-links {
         display: none
     }
+}
+
+footer {
+    border-top: 1px solid var(--line);
+    padding: 0px 0 40px;
+    font-size: 13px;
+    color: var(--muted);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000000;
+}
+
+.foot {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.footer-wrap {
+    border-top: 1px solid rgba(255,255,255,0.3);
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0px 1rem;
+    padding-top: 1rem;
 }

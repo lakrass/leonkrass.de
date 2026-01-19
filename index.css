@@ -10,6 +10,7 @@
     border-radius: 15px;
     border: 1px solid white;
     padding: 0.9rem;
-    width: 45vh;
+    width: 20rem;
+    flex: 0 0 auto;
     margin-top: 10vh;
 }
