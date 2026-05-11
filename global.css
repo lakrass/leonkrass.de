@@ -106,8 +106,8 @@ header {
 }
 
 @media (max-width:840px) {
-    .nav-links {
-        display: none;
+    .nav-links a[href="/"] {
+        display: none !important;
     }
 
     main > h1:first-child,
