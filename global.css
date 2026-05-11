@@ -69,6 +69,8 @@ header {
     display: flex;
     align-items: center;
     gap: 20px;
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 .nav-right {
@@ -82,6 +84,8 @@ header {
     gap: 12px;
     align-items: center;
     flex-wrap: nowrap;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .nav-links a {
@@ -89,6 +93,7 @@ header {
     color: var(--muted);
     display: inline-block;
     font-size: 15px;
+    flex: 0 0 auto;
     padding: 8px 10px;
     text-align: center;
     text-decoration: none;
@@ -106,6 +111,20 @@ header {
 }
 
 @media (max-width:840px) {
+    header {
+        gap: 12px;
+        padding: 0.75rem;
+    }
+
+    .nav-links {
+        gap: 8px;
+    }
+
+    .nav-links a {
+        font-size: 14px;
+        padding: 6px 8px;
+    }
+
     .nav-links a[href="/"] {
         display: none !important;
     }
@@ -117,6 +136,16 @@ header {
     main > h1:first-child,
     main section > h1:first-child {
         margin-top: 1rem;
+    }
+}
+
+@media (max-width: 1024px), (max-device-width: 1024px), (hover: none) and (pointer: coarse) {
+    .nav-links a[href="/"],
+    .nav-links a[href$="/"],
+    .nav-links a[href="/live-sets"],
+    .nav-links a[href$="live-sets"],
+    .nav-links a[href$="live-sets/"] {
+        display: none !important;
     }
 }
 
