@@ -110,6 +110,11 @@ header {
     .nav-links a[href="/"] {
         display: none !important;
     }
+
+    main > h1:first-child,
+    main section > h1:first-child {
+        margin-top: 1rem;
+    }
 }
 
 .spacer {
