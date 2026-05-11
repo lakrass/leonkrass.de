@@ -110,6 +110,10 @@ header {
         display: none !important;
     }
 
+    .nav-links a[href="/live-sets"] {
+        display: none !important;
+    }
+
     main > h1:first-child,
     main section > h1:first-child {
         margin-top: 1rem;
