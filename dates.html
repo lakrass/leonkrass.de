@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dates</title>
+    <link rel="icon" href="favicon.png" type="image/png" sizes="128x128">
+    <link rel="icon" href="LK Small.svg" type="image/svg+xml" sizes="any">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="text-page.css">
+    <style>
+        main {
+            width: 100%;
+        }
+
+        .gigs-page {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .gigs-intro {
+            max-width: 42rem;
+            color: rgba(230, 238, 248, 0.88);
+        }
+
+        .gigs-list {
+            display: grid;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        .gigs-status {
+            color: rgba(230, 238, 248, 0.72);
+            margin: 0;
+        }
+
+        .gigs-status[hidden] {
+            display: none;
+        }
+
+        .gig-card {
+            display: grid;
+            grid-template-columns: minmax(7rem, 8.5rem) minmax(0, 1fr) auto;
+            gap: 1rem;
+            align-items: start;
+            width: 100%;
+            padding: 1.1rem 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(4px);
+        }
+
+        .gig-date {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            color: rgba(230, 238, 248, 0.7);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .gig-date strong {
+            color: var(--text);
+            font-size: 1.2rem;
+            letter-spacing: normal;
+            text-transform: none;
+        }
+
+        .gig-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .gig-info h2 {
+            margin: 0;
+            font-size: 1.15rem;
+        }
+
+        .gig-place {
+            color: rgba(230, 238, 248, 0.82);
+            margin: 0;
+        }
+
+        .gig-link {
+            align-self: center;
+            white-space: nowrap;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 999px;
+            color: var(--text);
+            padding: 0.7rem 0.95rem;
+            text-decoration: none;
+            transition: background 0.15s ease, border-color 0.15s ease;
+        }
+
+        .gig-link:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.42);
+        }
+
+        .gig-link.is-muted {
+            color: rgba(230, 238, 248, 0.6);
+        }
+
+        @media (max-width: 640px) {
+            .gig-card {
+                grid-template-columns: 1fr;
+                position: relative;
+                padding-top: 1.1rem;
+                padding-right: 8.5rem;
+            }
+
+            .gig-link {
+                position: absolute;
+                right: 1rem;
+                top: 1.1rem;
+                width: auto;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-left">
+            <nav class="nav-links" aria-label="Primary">
+                <a href="/">Home</a>
+                <a href="/dates" class="active">Dates</a>
+                <a href="/lk-radio">LK Radio</a>
+                <a href="/live-sets">Live Sets</a>
+                <a href="/contact">Contact</a>
+            </nav>
+        </div>
+        <div class="nav-right">
+            <a href="https://leonkrass.de">
+                <img id="logo-header" src="LK Small.svg" alt="LK">
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <section class="gigs-page">
+            <h1>Next Dates</h1>
+            <p class="gigs-status" id="gigs-status" hidden></p>
+            <div class="gigs-list" id="gigs-list" aria-live="polite"></div>
+        </section>
+    </main>
+
+    <div class="spacer"></div>
+
+    <footer>
+        <div class="footer-wrap">
+            <div class="foot">
+                <div>&copy; <span id="y"></span> Leon Krass</div>
+                <div>
+                    <a href="/impressum">Impressum</a> |
+                    <a href="/datenschutz">Datenschutz</a>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.getElementById("y").textContent = new Date().getFullYear();
+
+            const gigsList = document.getElementById("gigs-list");
+            const gigsStatus = document.getElementById("gigs-status");
+
+            function parseCsvLine(line) {
+                const values = [];
+                let current = "";
+                let inQuotes = false;
+
+                for (let index = 0; index < line.length; index += 1) {
+                    const character = line[index];
+
+                    if (character === '"') {
+                        if (inQuotes && line[index + 1] === '"') {
+                            current += '"';
+                            index += 1;
+                        } else {
+                            inQuotes = !inQuotes;
+                        }
+                        continue;
+                    }
+
+                    if (character === ',' && !inQuotes) {
+                        values.push(current);
+                        current = "";
+                        continue;
+                    }
+
+                    current += character;
+                }
+
+                values.push(current);
+                return values.map((value) => value.trim());
+            }
+
+            function parseCsv(text) {
+                const rows = text.trim().split(/\r?\n/);
+                const headers = parseCsvLine(rows.shift());
+
+                return rows.filter(Boolean).map((row) => {
+                    const values = parseCsvLine(row);
+                    return headers.reduce((entry, header, index) => {
+                        entry[header] = values[index] ?? "";
+                        return entry;
+                    }, {});
+                });
+            }
+
+            function formatDateParts(dateValue) {
+                const date = new Date(dateValue);
+
+                if (Number.isNaN(date.getTime())) {
+                    return null;
+                }
+
+                const formatter = new Intl.DateTimeFormat("en-GB", {
+                    weekday: "short",
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                });
+
+                const parts = formatter.formatToParts(date);
+                const getPart = (type) => parts.find((part) => part.type === type)?.value ?? "";
+
+                return {
+                    weekday: getPart("weekday"),
+                    dayMonth: `${getPart("day")} ${getPart("month")}`,
+                    year: getPart("year"),
+                };
+            }
+
+            function createGigCard(gig) {
+                const dateParts = formatDateParts(gig.date);
+                const article = document.createElement("article");
+                article.className = "gig-card";
+
+                const dateColumn = document.createElement("div");
+                dateColumn.className = "gig-date";
+
+                const weekday = document.createElement("span");
+                weekday.textContent = dateParts ? dateParts.weekday : gig.date;
+
+                const dayMonth = document.createElement("strong");
+                dayMonth.textContent = dateParts ? dateParts.dayMonth : "";
+
+                const year = document.createElement("span");
+                year.textContent = dateParts ? dateParts.year : "";
+
+                dateColumn.append(weekday, dayMonth, year);
+
+                const info = document.createElement("div");
+                info.className = "gig-info";
+
+                const name = document.createElement("h2");
+                name.textContent = gig.name;
+
+                const place = document.createElement("p");
+                place.className = "gig-place";
+                place.textContent = gig.place;
+
+                info.append(name, place);
+
+                article.append(dateColumn, info);
+
+                if (gig.link) {
+                    const link = document.createElement("a");
+                    link.className = "gig-link";
+                    link.href = gig.link;
+                    link.target = "_blank";
+                    link.rel = "noopener noreferrer";
+                    link.textContent = gig.label || "More info";
+                    article.append(link);
+                } else {
+                    const label = document.createElement("span");
+                    label.className = "gig-link is-muted";
+                    label.textContent = gig.label || "Confirmed soon";
+                    article.append(label);
+                }
+
+                return article;
+            }
+
+            fetch("dates.csv", { cache: "no-store" })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Unable to load dates.csv (${response.status})`);
+                    }
+
+                    return response.text();
+                })
+                .then((csvText) => {
+                    const gigs = parseCsv(csvText)
+                        .map((gig) => ({
+                            date: gig.date,
+                            name: gig.name,
+                            place: gig.place,
+                            link: gig.link,
+                            label: gig.label,
+                        }))
+                        .filter((gig) => gig.date && gig.name && gig.place);
+
+                    gigsList.replaceChildren(...gigs.map(createGigCard));
+
+                    if (gigs.length) {
+                        gigsStatus.hidden = true;
+                    } else {
+                        gigsStatus.hidden = false;
+                        gigsStatus.textContent = "No dates are listed yet.";
+                    }
+                })
+                .catch(() => {
+                    gigsStatus.hidden = false;
+                    gigsStatus.textContent = "Unable to load dates right now.";
+                });
+        </script>
+    </footer>
+</body>
+
+</html>
