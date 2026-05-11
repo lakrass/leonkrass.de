@@ -81,6 +81,7 @@ header {
     display: flex !important;
     gap: 12px;
     align-items: center;
+    flex-wrap: nowrap;
 }
 
 .nav-links a {
@@ -91,6 +92,7 @@ header {
     padding: 8px 10px;
     text-align: center;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .nav-links a:hover {
@@ -103,12 +105,9 @@ header {
     font-weight: 600;
 }
 
-@media (max-width:640px) {
+@media (max-width:840px) {
     .nav-links {
         display: none;
-    }
-    .nav-links a[href="/"] {
-        display: none !important;
     }
 
     main > h1:first-child,
